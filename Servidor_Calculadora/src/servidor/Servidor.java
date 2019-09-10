@@ -97,12 +97,12 @@ public class Servidor {
                 }
                 //divisao
                 case 3:{
-                    dadosTratados.setResultado(n1/n2);
+                    dadosTratados.setResultado(n1*n2);
                     break;
                 }
                 //multiplicação
                 case 4:{
-                    dadosTratados.setResultado(n1*n2);
+                    dadosTratados.setResultado(n1/n2);
                     break;
                 }
                 default:{
