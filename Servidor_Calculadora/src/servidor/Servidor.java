@@ -48,19 +48,20 @@ public class Servidor {
         Dados dados = new Dados();
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
-        private Map<String, ObjectOutputStream> streamMap = new HashMap<String, ObjectOutputStream>();
+        private Map<String, ObjectOutputStream> streamMap = new HashMap<>();
 
         public Calculadora(Socket socket) {
             try {
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                System.out.println("Cliente: " + socket.getInetAddress().getHostName() + " Conectou!");
+                System.out.println("Cliente: " + socket.getInetAddress().getHostAddress() + " Conectou!");
             } catch (IOException ex) {
                 Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
 
+        @Override
         public void run() {
             try {
                 while ((dados = (Dados) objectInputStream.readObject()) != null) {
@@ -71,14 +72,12 @@ public class Servidor {
                                 executa(dados.getN1(), dados.getN2(), dados.getOperacao());
                             }
                         }
-                    } else {
-
                     }
                 }
-            } catch (IOException ex) {
-                Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+                
+            } catch (IOException | ClassNotFoundException ex) {
+                streamMap.remove(String.valueOf(dados.getOperacao()));
+                System.out.println("O cliente "+ socket.getInetAddress().getHostName()+ " desconectou");
             }
         }
 

@@ -32,7 +32,6 @@ public class JanelaCliente extends javax.swing.JFrame {
     private ObjectInputStream objetoEntrada;
     private final String ip = "127.0.0.1";
     private final int porta = 7412;
-    Dados ultimodado;
 
     /**
      * Creates new form JanelaCliente
@@ -336,7 +335,6 @@ public class JanelaCliente extends javax.swing.JFrame {
                 }
                 try {
                     if ((dadosRecebidos = (Dados) objetoEntrada.readObject()) != null) {
-                        ultimodado = dadosRecebidos;
                         resultado.setText(String.valueOf(dadosRecebidos.getResultado()));
                     }
                 } catch (IOException ex) {
@@ -345,7 +343,7 @@ public class JanelaCliente extends javax.swing.JFrame {
                     Logger.getLogger(JanelaCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                System.out.println("multiplas requisições: Acesso negado");
+                JOptionPane.showMessageDialog(this, "Preencha todos os dados");
             }
         
 
